@@ -1,0 +1,37 @@
+- name: Include the php_fpm variables
+  include_vars: 'fpm.yml'
+
+- name: Install the php_fpm packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: '{{ php_fpm_packages }}'
+
+- name: Configure php_fpm
+  ini_file:
+    dest: '{{ php_fpm_ini_file }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: '{{ php_options + php_fpm_options }}'
+  notify: Restart php-fpm
+
+- name: Configure www pool
+  ini_file:
+    dest: '{{ php_fpm_pools_dir }}/www.conf'
+    section: 'www'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: '{{ php_fpm_default_pool_options + php_fpm_pool_options }}'
+  notify: Restart php-fpm
+
+- name: Ensure /run/php dir exists
+  file:
+    path: '/run/php'
+    state: 'directory'
+    owner: '{{ php_fpm_user }}'
+    group: '{{ php_fpm_group }}'
+    mode: '0755'
+
+- include: 'fpm_{{ php_fpm_init_system }}.yml'

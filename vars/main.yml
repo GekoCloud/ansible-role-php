@@ -1,0 +1,4 @@
+---
+# vars file for php
+
+php_package_prefix: 'php{{ php_version }}'

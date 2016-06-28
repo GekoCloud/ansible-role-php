@@ -1,0 +1,30 @@
+---
+# handlers file for php
+
+- name: Restart php-fpm
+  shell: >
+    /bin/true
+  notify: 'Restart php-fpm {{ php_fpm_init_system }}'
+
+- name: Restart php-fpm upstart
+  service:
+    name: '{{ php_fpm_service }}'
+    state: 'restarted'
+
+- name: Restart php-fpm runit
+  shell: >
+    sv restart {{ php_fpm_service }}
+
+- name: Reload php-fpm
+  shell: >
+    /bin/true
+  notify: 'Reload php-fpm {{ php_fpm_init_system }}'
+
+- name: Reload php-fpm upstart
+  service:
+    name: '{{ php_fpm_service }}'
+    state: 'reloaded'
+
+- name: Reload php-fpm runit
+  shell: >
+    sv reload {{ php_fpm_service }}

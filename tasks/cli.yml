@@ -1,0 +1,17 @@
+- name: Include the php_cli variables
+  include_vars: 'cli.yml'
+
+- name: Install the php_cli packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: '{{ php_cli_packages }}'
+
+- name: Configure php_cli
+  ini_file:
+    dest: '{{ php_cli_ini_file }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: '{{ php_options + php_cli_options }}'

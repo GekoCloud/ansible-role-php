@@ -1,0 +1,32 @@
+language: python
+python: "2.7"
+sudo: required
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - pip install ansible libfcgi0ldbl
+  - printf "[defaults]\nroles_path = ../" > ansible.cfg
+  - docker run --name travis -d dpujadas/baseimage:python2
+
+script:
+  # Check the syntax
+  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  # Check role success
+  - ansible-playbook tests/test.yml -i tests/inventory
+  # Check idempotence
+  - >
+    ansible-playbook tests/test.yml -i tests/inventory
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+  # Check php-fpm is up and running
+  - >
+    SCRIPT_NAME=/ping
+    SCRIPT_FILENAME=/ping
+    REQUEST_METHOD=GET
+    cgi-fcgi -bind -connect $(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis):9000
+    | grep pong

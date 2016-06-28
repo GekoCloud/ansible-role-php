@@ -1,0 +1,18 @@
+php_fpm_packages:
+  - '{{ php_package_prefix }}-fpm'
+
+php_fpm_ini_file: '/etc/php/{{ php_version }}/fpm/php.ini'
+
+php_fpm_pools_dir: '/etc/php/{{ php_version }}/fpm/pool.d'
+
+php_fpm_service: 'php{{ php_version }}-fpm'
+
+php_fpm_default_pool_options:
+  - option: 'user'
+    value: '{{ php_fpm_user }}'
+  - option: 'group'
+    value: '{{ php_fpm_group }}'
+  - option: 'listen.owner'
+    value: '{{ php_fpm_user }}'
+  - option: 'listen.group'
+    value: '{{ php_fpm_group }}'

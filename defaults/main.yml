@@ -1,0 +1,24 @@
+---
+# defaults file for php
+
+# Format for php options (php_options, php_cli_options, php_fpm_options):
+#   - section : Section in ini file
+#     option  : Option name
+#     value   : Option value
+# For php_fpm_pool_options, section is ommited ('www' is used)
+
+# General
+php_options: []
+php_modules: []
+
+# CLI
+php_cli: False
+php_cli_options: []
+
+# FPM
+php_fpm: False
+php_fpm_init_system: 'upstart'
+php_fpm_options: []
+php_fpm_user: 'www-data'
+php_fpm_group: '{{ php_fpm_user}}'
+php_fpm_pool_options: []

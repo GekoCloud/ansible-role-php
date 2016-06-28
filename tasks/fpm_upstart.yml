@@ -1,0 +1,5 @@
+- name: Ensure php-fpm is started and enabled at boot
+  service:
+    name: '{{ php_fpm_service }}'
+    state: 'started'
+    enabled: 'yes'
