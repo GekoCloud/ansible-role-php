@@ -9,7 +9,7 @@ before_install:
 
 install:
   - pip install ansible
-  - apt-get install libfcgi0ldbl
+  - sudo apt-get install libfcgi0ldbl
   - printf "[defaults]\nroles_path = ../" > ansible.cfg
   - docker run --name travis -d dpujadas/baseimage:python2
 
