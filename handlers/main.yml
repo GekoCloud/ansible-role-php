@@ -13,7 +13,7 @@
 
 - name: Restart php-fpm runit
   shell: >
-    sv restart {{ php_fpm_service }}
+    sleep 5 && sv restart {{ php_fpm_service }}
 
 - name: Reload php-fpm
   shell: >
@@ -27,4 +27,4 @@
 
 - name: Reload php-fpm runit
   shell: >
-    sv reload {{ php_fpm_service }}
+    sleep 5 && sv reload {{ php_fpm_service }}
