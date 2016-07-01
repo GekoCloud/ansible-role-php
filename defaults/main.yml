@@ -22,3 +22,7 @@ php_fpm_options: []
 php_fpm_user: 'www-data'
 php_fpm_group: '{{ php_fpm_user}}'
 php_fpm_pool_options: []
+
+# Apache mod
+php_mod: False
+php_mod_options: []

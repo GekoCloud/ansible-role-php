@@ -15,7 +15,7 @@
     option: '{{ item.option }}'
     value: '{{ item.value }}'
   with_items: '{{ php_options + php_fpm_options }}'
-  notify: Restart php-fpm
+  notify: restart php-fpm
 
 - name: Configure www pool
   ini_file:
@@ -24,7 +24,7 @@
     option: '{{ item.option }}'
     value: '{{ item.value }}'
   with_items: '{{ php_fpm_default_pool_options + php_fpm_pool_options }}'
-  notify: Restart php-fpm
+  notify: restart php-fpm
 
 - name: Ensure /run/php dir exists
   file:

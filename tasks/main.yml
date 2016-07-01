@@ -30,9 +30,15 @@
     - php
     - php-fpm
 
+- include: 'mod.yml'
+  when: php_mod
+  tags:
+    - php
+    - php-mod
+
 - name: Install modules
   apt:
-    name: '{{ item }}'
+    name: 'php{{ php_version }}-{{ item }}'
     state: 'present'
     update_cache: 'yes'
   with_items: '{{ php_modules }}'

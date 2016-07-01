@@ -16,11 +16,26 @@
         value: '/ping'
       - option: 'listen'
         value: '9000'
+    php_mod_options:
+      - section: 'PHP'
+        option: 'memory_limit'
+        value: '64M'
+    php_modules:
+      - intl
   roles:
     - {
       role: ansible-role-php,
       php_version: '7.0',
       php_cli: True,
       php_fpm: True,
+      php_mod: True,
       php_fpm_init_system: 'runit'
     }
+  tasks:
+    - name: Create test index.php
+      copy:
+        content: |-
+          <?php
+          phpinfo();
+        dest: '/var/www/html/index.php'
+        mode: '0755'

@@ -11,6 +11,7 @@ install:
   - pip install ansible
   - sudo apt-get install libfcgi0ldbl
   - printf "[defaults]\nroles_path = ../" > ansible.cfg
+  - ansible-galaxy install -r requirements.yml
   - docker run --name travis -d dpujadas/baseimage:python2
 
 script:
@@ -31,3 +32,5 @@ script:
     REQUEST_METHOD=GET
     cgi-fcgi -bind -connect $(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis):9000
     | grep pong
+  # Check php-mod is up and running
+  - curl http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis)/index.php

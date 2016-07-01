@@ -1,30 +1,30 @@
 ---
 # handlers file for php
 
-- name: Restart php-fpm
+- name: restart php-fpm
   shell: >
     /bin/true
-  notify: 'Restart php-fpm {{ php_fpm_init_system }}'
+  notify: 'restart php-fpm {{ php_fpm_init_system }}'
 
-- name: Restart php-fpm upstart
+- name: restart php-fpm upstart
   service:
     name: '{{ php_fpm_service }}'
     state: 'restarted'
 
-- name: Restart php-fpm runit
+- name: restart php-fpm runit
   shell: >
     sleep 5 && sv restart {{ php_fpm_service }}
 
-- name: Reload php-fpm
+- name: reload php-fpm
   shell: >
     /bin/true
-  notify: 'Reload php-fpm {{ php_fpm_init_system }}'
+  notify: 'reload php-fpm {{ php_fpm_init_system }}'
 
-- name: Reload php-fpm upstart
+- name: reload php-fpm upstart
   service:
     name: '{{ php_fpm_service }}'
     state: 'reloaded'
 
-- name: Reload php-fpm runit
+- name: reload php-fpm runit
   shell: >
     sleep 5 && sv reload {{ php_fpm_service }}

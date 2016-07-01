@@ -18,4 +18,11 @@ galaxy_info:
     - ubuntu
     - php
 
-dependencies: []
+dependencies:
+  - {
+    role: apache,
+    src: 'https://github.com/dpujadas/ansible-role-apache.git',
+    version: master,
+    apache_init_system: 'runit',
+    when: php_mod
+  }
