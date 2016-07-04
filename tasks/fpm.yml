@@ -1,12 +1,37 @@
 - name: Include the php_fpm variables
   include_vars: 'fpm.yml'
 
+- name: Set php_handlers_reload
+  set_fact:
+    php_handlers_reload: '{{ php_handlers_reload + ["reload php-fpm"] }}'
+
+- name: Set php_handlers_restart
+  set_fact:
+    php_handlers_restart: '{{ php_handlers_restart + ["restart php-fpm"] }}'
+
+- name: Prevent php_fpm to start on install
+  copy:
+    content: |-
+      #!/bin/sh
+      exit 101
+    dest: '/usr/sbin/policy-rc.d'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  changed_when: False
+
 - name: Install the php_fpm packages
   apt:
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
   with_items: '{{ php_fpm_packages }}'
+
+- name: Remove policy-rc.d
+  file:
+    name: '/usr/sbin/policy-rc.d'
+    state: 'absent'
+  changed_when: False
 
 - name: Configure php_fpm
   ini_file:

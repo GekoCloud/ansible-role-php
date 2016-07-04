@@ -1,6 +1,16 @@
 ---
 # handlers file for php
 
+- name: restart php
+  shell: >
+    /bin/true
+  notify: '{{ php_handlers_restart }}'
+
+- name: reload php
+  shell: >
+    /bin/true
+  notify: '{{ php_handlers_reload }}'
+
 - name: restart php-fpm
   shell: >
     /bin/true

@@ -2,3 +2,6 @@
 # vars file for php
 
 php_package_prefix: 'php{{ php_version }}'
+
+php_handlers_reload: []
+php_handlers_restart: []

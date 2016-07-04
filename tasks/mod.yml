@@ -1,6 +1,14 @@
 - name: Include the php_mod variables
   include_vars: 'mod.yml'
 
+- name: Set php_handlers_reload
+  set_fact:
+    php_handlers_reload: '{{ php_handlers_reload + ["reload apache"] }}'
+
+- name: Set php_handlers_restart
+  set_fact:
+    php_handlers_restart: '{{ php_handlers_restart + ["restart apache"] }}'
+
 - name: Install the php_mod packages
   apt:
     name: '{{ item }}'

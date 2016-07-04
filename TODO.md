@@ -1,0 +1,1 @@
+- `restart apache` is skipped when notified in 'Install modules' task, maybe an ansible bug
