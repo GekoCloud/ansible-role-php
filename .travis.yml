@@ -33,4 +33,6 @@ script:
     cgi-fcgi -bind -connect $(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis):9000
     | grep pong
   # Check php-mod is up and running
-  - curl http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis)/index.php
+  - >
+    curl -s http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis)/index.php
+    | grep 'PHP Version'
