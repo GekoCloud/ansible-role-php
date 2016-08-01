@@ -1,4 +1,0 @@
-php_cli_packages:
-  - '{{ php_package_prefix }}-cli'
-
-php_cli_ini_file: '/etc/php/{{ php_version }}/cli/php.ini'

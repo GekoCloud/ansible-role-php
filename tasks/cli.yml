@@ -1,6 +1,3 @@
-- name: Include the php_cli variables
-  include_vars: 'cli.yml'
-
 - name: Install the php_cli packages
   apt:
     name: '{{ item }}'
