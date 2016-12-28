@@ -49,7 +49,6 @@
   apt:
     name: 'php{{ php_version }}-{{ item }}'
     state: 'present'
-    update_cache: 'yes'
     install_recommends: 'no'
   with_items: '{{ php_modules }}'
   notify: restart php
