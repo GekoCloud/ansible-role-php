@@ -2,7 +2,6 @@
   apt:
     name: '{{ item }}'
     state: 'present'
-    update_cache: 'yes'
   with_items: '{{ php_cli_packages }}'
 
 - name: Configure php_cli

@@ -10,7 +10,6 @@
   apt:
     name: '{{ item }}'
     state: 'present'
-    update_cache: 'yes'
   with_items: '{{ php_mod_packages }}'
 
 - name: Configure php_mod

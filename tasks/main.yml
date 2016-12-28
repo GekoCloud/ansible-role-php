@@ -7,6 +7,13 @@
   tags:
     - php
 
+- name: Update apt packages
+  apt:
+    update_cache: 'yes'
+    cache_valid_time: '86400'
+  tags:
+    - php
+
 - include: 'cli.yml'
   when: php_cli
   tags:
