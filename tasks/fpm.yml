@@ -10,6 +10,6 @@
   with_items:
     - 'install'
     - 'configure'
-    - '{{ php_fpm_init_system }}'
+    - '{{ php_init_system }}'
   loop_control:
     loop_var: php_fpm_loop

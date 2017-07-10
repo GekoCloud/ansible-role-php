@@ -21,7 +21,7 @@
   roles:
     - {
       role: ansible-role-php,
-      mysql_init_system: 'systemd'
+      php_init_system: 'systemd'
     }
   tasks:
     - name: Include test tasks

@@ -1,6 +1,8 @@
 ---
 # defaults file for php
 
+php_init_system: 'upstart'
+
 # Format for php options (php_options, php_cli_options, php_fpm_options):
 #   - section : Section in ini file
 #     option  : Option name
@@ -17,7 +19,6 @@ php_cli_options: []
 
 # FPM
 php_fpm: False
-php_fpm_init_system: 'upstart'
 php_fpm_options: []
 php_fpm_user: 'www-data'
 php_fpm_group: '{{ php_fpm_user}}'
