@@ -1,0 +1,21 @@
+- name: Configure php_fpm
+  ini_file:
+    dest: '{{ php_fpm_ini_file }}'
+    section: '{{ php_fpm_options_loop.section }}'
+    option: '{{ php_fpm_options_loop.option }}'
+    value: '{{ php_fpm_options_loop.value }}'
+  with_items: '{{ php_options + php_fpm_options }}'
+  loop_control:
+    loop_var: php_fpm_options_loop
+  notify: restart php-fpm
+
+- name: Configure www pool
+  ini_file:
+    dest: '{{ php_fpm_pools_dir }}/www.conf'
+    section: 'www'
+    option: '{{ php_fpm_pool_options_loop.option }}'
+    value: '{{ php_fpm_pool_options_loop.value }}'
+  with_items: '{{ php_fpm_default_pool_options + php_fpm_pool_options }}'
+  loop_control:
+    loop_var: php_fpm_pool_options_loop
+  notify: restart php-fpm

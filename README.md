@@ -15,7 +15,7 @@ Role Variables
 - `php_fpm_pool_options`: List of ini directives for www pool (default: empty list)
 - `php_fpm_user`: User php-fpm will run as (default: 'www-data')
 - `php_fpm_group`: Group php-fpm will run as (default: php_fpm_user)
-- `php_fpm_init_system`: OS init system. Docker phusion/baseimage uses 'runit'. (default 'upstart')
+- `php_fpm_init_system`: OS init system. (default 'upstart')
 - `php_mod`: Install apache php module or not (default: False)
 - `php_mod_options`: List of ini directives for php mod (default: empty list)
 - `php_modules`: List of php modules to install (default: empty list)

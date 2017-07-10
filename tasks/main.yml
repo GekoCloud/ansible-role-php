@@ -1,64 +1,25 @@
 ---
 # tasks file for php
 
-- name: Install ondrej repo for latest PHP packages
-  apt_repository:
-    repo: 'ppa:ondrej/php'
+- block:
+    - include: 'requirements.yml'
+
+    - include: 'cli.yml'
+      when: php_cli
+      tags:
+        - php-cli
+
+    - include: 'fpm.yml'
+      when: php_fpm
+      tags:
+        - php-fpm
+
+    - include: 'mod.yml'
+      when: php_mod
+      tags:
+        - php-mod
+
+    - include: 'modules.yml'
   tags:
     - php
 
-- name: Update apt packages
-  apt:
-    update_cache: 'yes'
-    cache_valid_time: '3600'
-  tags:
-    - php
-
-- include: 'cli.yml'
-  when: php_cli
-  tags:
-    - php
-    - php-cli
-
-- include: 'fpm.yml'
-  when: php_fpm
-  tags:
-    - php
-    - php-fpm
-
-- include: 'mod.yml'
-  when: php_mod
-  tags:
-    - php
-    - php-mod
-
-- name: Prevent apt to restart service
-  copy:
-    content: |-
-      #!/bin/sh
-      exit 101
-    dest: '/usr/sbin/policy-rc.d'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
-  changed_when: False
-  tags:
-    - php
-
-- name: Install modules
-  apt:
-    name: 'php{{ php_version }}-{{ item }}'
-    state: 'present'
-    install_recommends: 'no'
-  with_items: '{{ php_modules }}'
-  notify: restart php
-  tags:
-    - php
-
-- name: Remove policy-rc.d
-  file:
-    name: '/usr/sbin/policy-rc.d'
-    state: 'absent'
-  changed_when: False
-  tags:
-    - php

@@ -1,0 +1,7 @@
+- name: Create test index.php
+  copy:
+    content: |-
+      <?php
+      phpinfo();
+    dest: '/var/www/html/index.php'
+    mode: '0755'

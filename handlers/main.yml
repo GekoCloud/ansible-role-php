@@ -12,29 +12,11 @@
   notify: '{{ php_handlers_reload }}'
 
 - name: restart php-fpm
-  shell: >
-    /bin/true
-  notify: 'restart php-fpm {{ php_fpm_init_system }}'
-
-- name: restart php-fpm upstart
   service:
     name: '{{ php_fpm_service }}'
     state: 'restarted'
 
-- name: restart php-fpm runit
-  shell: >
-    sleep 5 && sv restart {{ php_fpm_service }}
-
 - name: reload php-fpm
-  shell: >
-    /bin/true
-  notify: 'reload php-fpm {{ php_fpm_init_system }}'
-
-- name: reload php-fpm upstart
   service:
     name: '{{ php_fpm_service }}'
     state: 'reloaded'
-
-- name: reload php-fpm runit
-  shell: >
-    sleep 5 && sv reload {{ php_fpm_service }}

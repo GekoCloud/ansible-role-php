@@ -12,7 +12,8 @@ install:
   - sudo apt-get install libfcgi0ldbl
   - printf "[defaults]\nroles_path = ../" > ansible.cfg
   - ansible-galaxy install -r requirements.yml
-  - docker run --name travis -d dpujadas/baseimage:python2
+  - docker run --name travis-trusty --privileged -d dpujadas/baseimage:trusty
+  - docker run --name travis-xenial --privileged -d dpujadas/baseimage:xenial
 
 script:
   # Check the syntax
@@ -22,7 +23,8 @@ script:
   # Check idempotence
   - >
     ansible-playbook tests/test.yml -i tests/inventory | tee /tmp/output.txt;
-    grep -q 'changed=0.*failed=0' /tmp/output.txt
+    (grep -q 'travis-trusty.*changed=0.*failed=0' /tmp/output.txt &&
+    grep -q 'travis-xenial.*changed=0.*failed=0' /tmp/output.txt)
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
   # Check php-fpm is up and running
@@ -30,9 +32,18 @@ script:
     SCRIPT_NAME=/ping
     SCRIPT_FILENAME=/ping
     REQUEST_METHOD=GET
-    cgi-fcgi -bind -connect $(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis):9000
+    cgi-fcgi -bind -connect $(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis-trusty):9000
+    | grep pong
+  - >
+    SCRIPT_NAME=/ping
+    SCRIPT_FILENAME=/ping
+    REQUEST_METHOD=GET
+    cgi-fcgi -bind -connect $(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis-xenial):9000
     | grep pong
   # Check php-mod is up and running
   - >
-    curl -s http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis)/index.php
+    curl -s http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis-trusty)/index.php
+    | grep 'PHP Version'
+  - >
+    curl -s http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' travis-xenial)/index.php
     | grep 'PHP Version'

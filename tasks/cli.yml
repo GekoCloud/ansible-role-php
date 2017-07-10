@@ -1,13 +1,17 @@
 - name: Install the php_cli packages
   apt:
-    name: '{{ item }}'
+    name: '{{ php_cli_packages_loop }}'
     state: 'present'
   with_items: '{{ php_cli_packages }}'
+  loop_control:
+    loop_var: php_cli_packages_loop
 
 - name: Configure php_cli
   ini_file:
     dest: '{{ php_cli_ini_file }}'
-    section: '{{ item.section }}'
-    option: '{{ item.option }}'
-    value: '{{ item.value }}'
+    section: '{{ php_cli_options_loop.section }}'
+    option: '{{ php_cli_options_loop.option }}'
+    value: '{{ php_cli_options_loop.value }}'
   with_items: '{{ php_options + php_cli_options }}'
+  loop_control:
+    loop_var: php_cli_options_loop

@@ -1,41 +1,29 @@
----
-- hosts: travis
+- hosts: travis-trusty
   connection: docker
   remote_user: root
-  vars:
-    php_options:
-      - section: 'PHP'
-        option: 'display_errors'
-        value: 'On'
-    php_cli_options:
-      - section: 'PHP'
-        option: 'memory_limit'
-        value: '32M'
-    php_fpm_pool_options:
-      - option: 'ping.path'
-        value: '/ping'
-      - option: 'listen'
-        value: '9000'
-    php_mod_options:
-      - section: 'PHP'
-        option: 'memory_limit'
-        value: '64M'
-    php_modules:
-      - intl
+  pre_tasks:
+    - name: Include test vars
+      include_vars: 'test-vars.yml'
+  roles:
+    - {
+      role: ansible-role-php
+    }
+  tasks:
+    - name: Include test tasks
+      include: 'test-tasks.yml'
+
+- hosts: travis-xenial
+  connection: docker
+  remote_user: root
+  pre_tasks:
+    - name: Include test vars
+      include_vars: 'test-vars.yml'
   roles:
     - {
       role: ansible-role-php,
-      php_version: '7.0',
-      php_cli: True,
-      php_fpm: True,
-      php_mod: True,
-      php_fpm_init_system: 'runit'
+      mysql_init_system: 'systemd'
     }
   tasks:
-    - name: Create test index.php
-      copy:
-        content: |-
-          <?php
-          phpinfo();
-        dest: '/var/www/html/index.php'
+    - name: Include test tasks
+      include: 'test-tasks.yml'
         mode: '0755'

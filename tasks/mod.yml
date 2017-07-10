@@ -8,15 +8,19 @@
 
 - name: Install the php_mod packages
   apt:
-    name: '{{ item }}'
+    name: '{{ php_mod_packages_loop }}'
     state: 'present'
   with_items: '{{ php_mod_packages }}'
+  loop_control:
+    loop_var: php_mod_packages_loop
 
 - name: Configure php_mod
   ini_file:
     dest: '{{ php_mod_ini_file }}'
-    section: '{{ item.section }}'
-    option: '{{ item.option }}'
-    value: '{{ item.value }}'
+    section: '{{ php_mod_options_loop.section }}'
+    option: '{{ php_mod_options_loop.option }}'
+    value: '{{ php_mod_options_loop.value }}'
   with_items: '{{ php_options + php_mod_options }}'
+  loop_control:
+    loop_var: php_mod_options_loop
   notify: restart apache

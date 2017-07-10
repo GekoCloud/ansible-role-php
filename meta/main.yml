@@ -23,5 +23,5 @@ dependencies:
   src: 'https://github.com/dpujadas/ansible-role-apache.git'
   scm: git
   version: master
-  apache_init_system: 'runit'
+  apache_init_system: '{{ php_init_system }}'
   when: php_mod

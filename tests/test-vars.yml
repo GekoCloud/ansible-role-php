@@ -1,0 +1,23 @@
+php_version: '7.0',
+php_cli: True,
+php_fpm: True,
+php_mod: True,
+php_options:
+  - section: 'PHP'
+    option: 'display_errors'
+    value: 'On'
+php_cli_options:
+  - section: 'PHP'
+    option: 'memory_limit'
+    value: '32M'
+php_fpm_pool_options:
+  - option: 'ping.path'
+    value: '/ping'
+  - option: 'listen'
+    value: '9000'
+php_mod_options:
+  - section: 'PHP'
+    option: 'memory_limit'
+    value: '64M'
+php_modules:
+  - intl

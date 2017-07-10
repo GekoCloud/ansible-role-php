@@ -1,0 +1,4 @@
+- name: Install ondrej repo for latest PHP packages
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    update_cache: 'yes'
