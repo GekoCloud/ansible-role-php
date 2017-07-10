@@ -1,7 +1,7 @@
-php_version: '7.0',
-php_cli: True,
-php_fpm: True,
-php_mod: True,
+php_version: '7.0'
+php_cli: True
+php_fpm: True
+php_mod: True
 php_options:
   - section: 'PHP'
     option: 'display_errors'
