@@ -26,4 +26,3 @@
   tasks:
     - name: Include test tasks
       include: 'test-tasks.yml'
-        mode: '0755'
