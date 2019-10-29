@@ -20,7 +20,7 @@ galaxy_info:
 
 dependencies:
 - name: apache
-  src: 'https://github.com/dpujadas/ansible-role-apache.git'
+  src: 'https://github.com/GekoCloud/ansible-role-apache'
   scm: git
   version: master
   apache_init_system: '{{ php_init_system }}'
